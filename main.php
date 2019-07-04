@@ -15,8 +15,12 @@
   <li><a href="#about">Add entry field</a></li>
 </ul>
 -->
+<!-- <form action = "index.php">
+<input type='submit' id= "submit_new" value= 'See your website'>
+</form> -->
 
-<button type='button' onclick='show()'>Show the website</button>
+<a href='user_files/index.php' target= "_blank">Check your website</a>
+
 <form action = "create.php">
 <input type='submit' id= "submit_new" value= 'Create a file'>
 </form>
@@ -32,27 +36,31 @@ $path = 'user_files/';
 $files = scandir($path);
 //// It's returning an array, hence the foreach.
 $files = array_diff(scandir($path), array('.','..'));
-foreach($files as $file_name) {
-	echo "<form method='get'>";
-	echo "<input type='submit' id='$file_name' value = '$file_name'>";
-	echo "</form>";
-
-	#echo "<a href='$file_name'>'$file_name'</a> <br>";
+echo "<h4>Your Files</h4>";
+foreach($files as $file_name) { ?>   
+	
+	<form action='read_file.php' method='post'>
+	<input type='text'  name= 'vars' value='<?php echo $file_name ?>'>
+	<input type='submit' name='send_over' value ='Check the code'>
+	</form>  
+	<?php
+	#
 }
 
 //// I need a way so that when i click the link it remembers it in a variable which i can use in the 'To read the contents of code and display' block
-?><p>
+?><!-- <p>
 <div id ='Create'>
-</div>
+</div> -->
 
 <div style="margin-left:25%;padding:1px 16px;height:1000px;">
 <form method='post'>
 	<textarea rows="40" cols="110" name ='code'>
 	<?php    
-
+	#sesion_start();
 	//// TO READ THE CONTENTS OF CODE AND DISPLAY
-	$file_name = $_GET['id'];
-	$source = 'user_files/' . $file_name;
+	include 'read_file.php';
+	$name = $_SESSION['code'];
+	$source = 'user_files/' . $name;
 	$open_file = fopen($source, 'r') or die("File does not exist");
 	while(!feof($open_file)){
 		$line = fgets($open_file);
@@ -65,18 +73,10 @@ foreach($files as $file_name) {
 	?>
 	</textarea>
 	<input type='submit' name = 'submit' value= 'Append'>
-
-
-
-
-<div id = "Show" style="border:1px solid black">
-</div>
 </form>
 
-
-
 <!--- FUNCTION TO SHOW THE WEBSITE -->
-
+<!-- 
 <script>
 function show() {
   var xhttp = new XMLHttpRequest();
@@ -85,12 +85,12 @@ function show() {
       document.getElementById("Show").innerHTML = this.responseText;
     }
   };
-  xhttp.open("POST", "index.php", true);
+  xhttp.open("POST", "user_files/index.php", true);
   xhttp.send();
 }
 </script>
 
-<!--- Function to create a new file -->
+ --><!--- Function to create a new file -->
 
 
 </div>
@@ -98,15 +98,14 @@ function show() {
 </html>
 
 <?php
-$file_name = 'index.php';
-$source = 'user_files/' . $file_name;
+include 'read_file.php';
+$name = $_SESSION['code'];
+$source = 'user_files/' . $name;
 if(isset($_POST['submit'])){
 	$code = $_POST['code'];
-	echo "Hello";
 	if(file_exists($source)) {
 	#echo "File exists!";
 	$file = fopen($source, 'w') or die("Failed to open the file.");
-	#echo "ajde";
 	$text = $code;
 	fwrite($file, $text) or die("Could not write to a file, please try again!");
 	fclose($file); 
@@ -114,7 +113,7 @@ if(isset($_POST['submit'])){
 	}
 	
 
-
+//// Only do this if the file does not exist
 	elseif(file_exists($source) == false) {
 		
 		$new_file = fopen($source, 'w') or die("Failed creating a file.");
