@@ -25,3 +25,53 @@ li a:hover:not(.active) {
   background-color: #555;
   color: white;
 }
+.span-row-2{
+width:25%;
+margin-right:2%;
+float:left; 
+margin-top:3%;
+}
+
+#check_web {
+  font-size: 20px;
+  float:right;
+  text-decoration: none;
+  background-color: grey;
+  color: white;
+  padding: 5px;
+  border-radius: 15px;
+}
+
+.buttons{
+  margin:0 10px 0 0;
+  display:inline-block;
+  
+  
+}
+.butn {
+  background: #858585;
+  background-image: -webkit-linear-gradient(top, #858585, #282929);
+  background-image: -moz-linear-gradient(top, #858585, #282929);
+  background-image: -ms-linear-gradient(top, #858585, #282929);
+  background-image: -o-linear-gradient(top, #858585, #282929);
+  background-image: linear-gradient(to bottom, #858585, #282929);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 15px;
+  text-shadow: 0px 1px 3px #666666;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 10px;
+  padding: 5px 10px 5px 10px;
+  text-decoration: none;
+}
+
+.butn:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}

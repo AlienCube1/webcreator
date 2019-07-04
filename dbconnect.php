@@ -40,11 +40,21 @@ if ($get_name == 'MYSQL') {
 	$file = fopen($source, 'w') or die("Failed to open the file.");
 	$file = fopen($source, 'a') or die("i fucked up");
 	$dsn = "$dsn";
-	$pdoo = "$pdo". "->" . "setAttribute";
-	$text = "<?php \n" . '$dsn' ."=mysql:host='" . "'$host'" . "';dbname='". $db_name.";\n" . '$pdo' . " = new PDO(".'$dsn,' . $username.",". $password .")" . ";\n" .'$pdo'."$pdoo" ."(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); \n" . "if(". '$pdo' . ")  { \n echo 'Connection successful'; } ?>";
+	$start = "<?php";
+	$first_row = '$dsn' ."=" ."'mysql:host=".$host.";dbname=".$db_name."'" . ";";
+	$second_row = '$pdo'."=".'new PDO' . '(' . '$dsn' . ',' . "'" . $username . "'" . ',' ."'" .$password ."'" .');'; 
+	$third_row = '$pdo' . '->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);';
+	$fourth_row = 'if' . '(' . '$pdo' . ')' . '{';
+	$fifth_row = "echo 'Connection successful'" . ';' . '}'; 
+	$end = '?>';
+	$text = $start . "\n" . $first_row . "\n" . $second_row . "\n" . $third_row . "\n" . $fourth_row . "\n" .$fifth_row ."\n".$end;
 	fwrite($file, $text) or die("Could not write to a file, please try again!");
-	fclose($file); 
+	if (fwrite) {
+		header("location: user_files/conf.php");
 
+	}
+
+	fclose($file); 
 
 }
 }

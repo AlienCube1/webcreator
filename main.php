@@ -7,26 +7,21 @@
 
 
 <body>
-<!--
-<ul>
-  <li><button type='button' onclick='button()'>Add Button</button></li>
-  <li><a href="#news">Add paragraph</a></li>
-  <li><a href="#contact">Add button</a></li>
-  <li><a href="#about">Add entry field</a></li>
-</ul>
--->
-<!-- <form action = "index.php">
-<input type='submit' id= "submit_new" value= 'See your website'>
-</form> -->
 
-<a href='user_files/index.php' target= "_blank">Check your website</a>
 
+<a href='user_files/index.php' target= "_blank" id='check_web' >Check your website</a>
+<div class = 'buttons'>
 <form action = "create.php">
-<input type='submit' id= "submit_new" value= 'Create a file'>
+<input class = 'butn' type='submit' id= "submit_new" value= 'Create a file'>
 </form>
+</div>
 
-
-<p> 
+<div class = 'buttons'>
+<form action = "dbconnect.php">
+<input class = 'butn' type='submit' id="create_db" value= 'Create a database'>
+</form>
+</div>
+ 
 
 
 <?php
@@ -36,28 +31,36 @@ $path = 'user_files/';
 $files = scandir($path);
 //// It's returning an array, hence the foreach.
 $files = array_diff(scandir($path), array('.','..'));
-echo "<h4>Your Files</h4>";
+
+
+
+
+echo"<div class='span-row-2' style='borded: thin solid black'>";
 foreach($files as $file_name) { ?>   
 	
 	<form action='read_file.php' method='post'>
-	<input type='text'  name= 'vars' value='<?php echo $file_name ?>'>
+	<input readonly type='text'  name= 'vars' value='<?php echo $file_name ?>'>
 	<input type='submit' name='send_over' value ='Check the code'>
+	<input type='submit' name='delete_over' value='Delete File'>
 	</form>  
+	
 	<?php
 	#
 }
+echo"</div>";
+#echo "</div>";
+?>
 
-//// I need a way so that when i click the link it remembers it in a variable which i can use in the 'To read the contents of code and display' block
-?><!-- <p>
-<div id ='Create'>
-</div> -->
-
-<div style="margin-left:25%;padding:1px 16px;height:1000px;">
+<div style="borded: thin solid black float:left">
 <form method='post'>
 	<textarea rows="40" cols="110" name ='code'>
 	<?php    
-	#sesion_start();
+	
+
 	//// TO READ THE CONTENTS OF CODE AND DISPLAY
+	//// The reason i Inlcuded this file is so that I can send info over
+	//// to another page that looks what file I request and here it shows
+	//// It's content, it's sloppy but it's working.
 	include 'read_file.php';
 	$name = $_SESSION['code'];
 	$source = 'user_files/' . $name;
@@ -74,29 +77,14 @@ foreach($files as $file_name) { ?>
 	</textarea>
 	<input type='submit' name = 'submit' value= 'Append'>
 </form>
-
-<!--- FUNCTION TO SHOW THE WEBSITE -->
-<!-- 
-<script>
-function show() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("Show").innerHTML = this.responseText;
-    }
-  };
-  xhttp.open("POST", "user_files/index.php", true);
-  xhttp.send();
-}
 </script>
-
- --><!--- Function to create a new file -->
-
-
 </div>
 </body>
 </html>
 
+
+
+ <!--- Function to create a new file -->
 <?php
 include 'read_file.php';
 $name = $_SESSION['code'];
@@ -104,7 +92,7 @@ $source = 'user_files/' . $name;
 if(isset($_POST['submit'])){
 	$code = $_POST['code'];
 	if(file_exists($source)) {
-	#echo "File exists!";
+	echo "File exists!";
 	$file = fopen($source, 'w') or die("Failed to open the file.");
 	$text = $code;
 	fwrite($file, $text) or die("Could not write to a file, please try again!");
@@ -126,14 +114,9 @@ if(isset($_POST['submit'])){
 		fwrite($new_file, $text) or die("Could not write to a file, please try again!");
 		fclose($new_file);}
 	}
-
+	elseif(file_exists($source)) {
+		echo "That file alredy exists!";
+	}
 }
-
-// function code(string $header, string $title, string $paragraph ) {
-
-// }
-
-
-
 
 ?>
